@@ -1,0 +1,31 @@
+version: 2.1
+jobs:
+  run_tests:
+    docker:
+      - image: circleci/node:14
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            npm install
+
+  build_docker_image:
+    docker:
+      - image: circleci/node:14
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: false
+      - run:
+          name: Build Docker image
+          command: |
+            docker build -t jeevan97achar/docker-circleci-practice:1.0 .
+            echo $DOCKER_PASSWORD | docker login -u jeevan97achar --password-stdin
+            docker push jeevan97achar/docker-circleci-practice:1.0
+
+workflows:
+  pipe-line-workflows:
+    jobs:
+      - run_tests
+      - build_docker_image
