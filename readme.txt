@@ -7,5 +7,5 @@ docker build -t node-app:1.0 .
 
 # The dot (.) in the cmd represents the directory (current folder)
 
-# ---1---
+# ---2---
 docker run -d -p 3000:3000 node-app:1.0
